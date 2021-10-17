@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Doctors Appointment",
+      "day": "Feb 5th at 2:30pm",
+      "reminder": true
+    },
+    {
+      "text": "Another new task",
+      "day": "9pm",
+      "reminder": false,
+      "id": 5
+    },
+    {
+      "text": "GGHGF",
+      "day": "",
+      "reminder": false,
+      "id": 9
+    },
+    {
+      "text": "Go to shops",
+      "day": "",
+      "reminder": true,
+      "id": 10
+    },
+    {
+      "text": "Take Test",
+      "day": "Friday",
+      "reminder": false,
+      "id": 11
+    },
+    {
+      "text": "Reinstall Bootstrap Powershell",
+      "day": "First thing",
+      "reminder": true,
+      "id": 12
+    }
+  ]
+}
