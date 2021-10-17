@@ -22,6 +22,7 @@ Header.propTypes = {
 // const headingStyle = {
 //     color: 'red',
 //     backgroundColor: 'black',
+//c
 // }
 
 export default Header;
