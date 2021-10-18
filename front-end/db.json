@@ -7,34 +7,16 @@
       "reminder": true
     },
     {
-      "text": "Another new task",
-      "day": "9pm",
-      "reminder": false,
-      "id": 5
-    },
-    {
-      "text": "GGHGF",
-      "day": "",
-      "reminder": false,
-      "id": 9
-    },
-    {
-      "text": "Go to shops",
-      "day": "",
+      "text": "Test React",
+      "day": "9am Tuesday",
       "reminder": true,
-      "id": 10
+      "id": 2
     },
     {
-      "text": "Take Test",
-      "day": "Friday",
+      "text": "Unlock Door",
+      "day": "8am Wednesday",
       "reminder": false,
-      "id": 11
-    },
-    {
-      "text": "Reinstall Bootstrap Powershell",
-      "day": "First thing",
-      "reminder": true,
-      "id": 12
+      "id": 3
     }
   ]
 }
