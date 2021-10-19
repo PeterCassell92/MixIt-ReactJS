@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ebase version="5.10.0">
+    <script contentType="Javascript" preferredComponentPath="/StatelessServices/task_tracker" id="sharedFunctions" dateCreated="2021-10-19T16:57:58.778+01:00">
+        <scriptText>importPackage(com.ebasetech.xi.api);
+importPackage(com.ebasetech.xi.services);
+
+//Intended for checks which are common across multiple endpoint events. I.e. checking Basic Authentication credentials. Checking method is allowed etc.
+
+/**@desc compares the submitted basic authentication credentials (decrypted) for exact match with the username and password as set in the properties file
+ * @param credentials = basicAuthentication credentials object
+ */
+function checkBasicAuthentication(credentials){
+
+	if(!credentials){
+		throw new Error("401:Credentials not Provided");
+	}
+
+	if(credentials.getUsername() == getProperty('basicAuthUsername') &amp;&amp; credentials.getPassword()== getProperty('basicAuthPassword')){
+		return true;
+	}
+	else{
+		throw new Error("401:Invalid Credentials");
+	}
+}
+
+/**@desc standardised way of setting an error response from an error object
+ * @param error Error Object - with error.message in the format "errorcode:errormessage"
+ */
+function setErrorResponse(error){
+	var arr = error.message.split(':');
+
+	//the message has been formatted correctly
+	if(arr.length == 2 &amp;&amp; arr[0].match(/^\d*/)){
+		log(arr[0]);
+		 form.rest.setResponseStatus(arr[0]);
+
+  	form.rest.setResponseBody(JSON.stringify({
+    	msg: arr[1]
+ 		}));
+	
+ 		//form.rest.setResponseHeader("WWW-Authenticate", "Basic");
+	}
+	//otherwise this is going to be an uncaught (server) error.
+	else{
+		log(error.message);
+		form.rest.setResponseStatus(500);
+
+		form.rest.setResponseBody(JSON.stringify({
+    	msg: error.message
+ 		}));
+	}
+}
+//
+///**
+// * @desc randomize the position of all cards in a zone.
+// */
+//function shuffleCards(cardsArr, zone){
+//	var cardsInZone = [];
+//	var cardsNotInZone = [];
+//	cardsArr.forEach(card =&gt; {
+//		if(card.zone = zone){
+//			cardsInZone.push(card)
+//		}
+//		else{
+//			cardsNotInZone.push(card)
+//		}
+//	});
+//
+//	if (cardsInZone.length &gt; 0){
+//		var shuffledCards = shuffle(cardsInZone);
+//		shuffledCards.forEach((card, i) =&gt; {card.position = i});
+//		//return shuffled cards recombined with the remaining cards.
+//		return shuffledCards.concat(cardsNotInZone);
+//	}
+//	else{
+//		//no cards in zone
+//		return cardsArr;
+//	}
+//}
+//
+//function fetchDeckByDeckId(deckId){
+//	if(!deckId){
+//		throw new Error("403:No deck_id provided in the path parameters");
+//	}
+//	
+//	fields.selectedDeckId.value = form.rest.getPathParameter('deck_id');
+//	var records = resources.decks.fetch();
+//	if (records == 1){
+//		return true;
+//	}
+//	else{
+//		throw new Error("403:No Deck found with deck_id "+ deckId);
+//	}	
+//}
+//
+///**
+// * @desc checks if a zone parameter is valid
+// */
+//function validateZone(zone){
+//	if (!ZONES_STANDARD.some( z =&gt; (z == zone))){
+//		throw new Error("403:Zone Parameter Invalid. Use one of " + ZONES_STANDARD.toString());
+//	}
+//	else{
+//		return true;
+//	}
+//}
+///**
+// * @desc checks if a suit parameter is valid
+// */
+//function validateSuit(suit){
+//	if (!SUITS.some( s =&gt; (s == suit))){
+//			throw new Error("403:Suit Parameter Invalid (must be one of " + SUITS.toString());
+//	}
+//	else{
+//		return true;
+//	}
+//}
+</scriptText>
+    </script>
+</ebase>

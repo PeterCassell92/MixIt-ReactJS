@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ebase version="5.9.0">
-    <RESTfulWebService enabled="true" id="task_tracker" dateCreated="2021-10-17T20:48:22.276+01:00"/>
+<ebase version="5.10.0">
+    <RESTfulWebService enabled="true" id="task_tracker" dateCreated="2021-10-17T20:48:22.276+01:00">
+        <sharedFunctionScripts>
+            <sharedFunctionScript path="/StatelessServices/Scripts/databaseFunctions"/>
+            <sharedFunctionScript path="/StatelessServices/Scripts/sharedFunctions"/>
+        </sharedFunctionScripts>
+        <resources>
+            <resource name="single_task" path="/StatelessServices/single_task"/>
+            <resource name="tasks" path="/StatelessServices/tasks"/>
+        </resources>
+        <restfulEndpoints>
+            <endpoint name="getAllTasks" endpointEvent="/StatelessServices/Scripts/Endpoints/getAllTasks" path="v1/tasks" contentType="">
+                <methods>
+                    <method>GET</method>
+                </methods>
+            </endpoint>
+        </restfulEndpoints>
+    </RESTfulWebService>
 </ebase>
