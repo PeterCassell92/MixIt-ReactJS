@@ -12,9 +12,7 @@ function AddTask({onAdd}) {
             alert("Please Add Task")
             return
         }
-
         onAdd({text,day,reminder})
-
         setText('')
         setDay('')
         setReminder(false)
