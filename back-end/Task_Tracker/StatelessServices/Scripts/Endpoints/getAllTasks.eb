@@ -5,8 +5,6 @@
 importPackage(com.ebasetech.xi.services);
 
 try{
-	//check Authentication
-	//checkBasicAuthentication(form.rest.readBasicAuthenticationCredentials());
 	//generate response based on method used. 
 	switch (form.rest.getMethod()){			
 	  case "GET":		
@@ -17,14 +15,11 @@ try{
 	      msg: "All Tasks Retrieved",
 	    }));
 
-	    log('HERE');
-
-	    form.rest.setResponseHeader('Access-Control-Allow-Origin', "*");
 	    form.rest.setResponseHeader("Content-type", "application/json");
 	    form.rest.setResponseStatus(200);
 	  break;
 	  default:
-			throw new Error("405:No HTTP Method specified or invalid HTTP Method used");
+			throw ERR_405_INVALID_HTTP_TYPE;
 	  break;
 	}
 }

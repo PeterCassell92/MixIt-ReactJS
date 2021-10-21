@@ -2,17 +2,37 @@
 <ebase version="5.10.0">
     <RESTfulWebService enabled="true" id="task_tracker" dateCreated="2021-10-17T20:48:22.276+01:00">
         <sharedFunctionScripts>
-            <sharedFunctionScript path="/StatelessServices/Scripts/databaseFunctions"/>
             <sharedFunctionScript path="/StatelessServices/Scripts/sharedFunctions"/>
+            <sharedFunctionScript path="/StatelessServices/Scripts/databaseFunctions"/>
         </sharedFunctionScripts>
         <resources>
             <resource name="single_task" path="/StatelessServices/single_task"/>
             <resource name="tasks" path="/StatelessServices/tasks"/>
         </resources>
         <restfulEndpoints>
-            <endpoint name="getAllTasks" endpointEvent="/StatelessServices/Scripts/Endpoints/getAllTasks" path="v1/tasks" contentType="">
+            <endpoint name="getAllTasks" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/getAllTasks" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks" contentType="">
                 <methods>
                     <method>GET</method>
+                </methods>
+            </endpoint>
+            <endpoint name="getTask" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/getTask" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/{id}/get" contentType="">
+                <methods>
+                    <method>GET</method>
+                </methods>
+            </endpoint>
+            <endpoint name="deleteTask" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/deleteTask" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/{id}/delete" contentType="">
+                <methods>
+                    <method>DELETE</method>
+                </methods>
+            </endpoint>
+            <endpoint name="toggleReminder" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/toggleReminder" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/{id}/togglereminder" contentType="">
+                <methods>
+                    <method>GET</method>
+                </methods>
+            </endpoint>
+            <endpoint name="addTask" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/addTask" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/add" contentType="application/json">
+                <methods>
+                    <method>POST</method>
                 </methods>
             </endpoint>
         </restfulEndpoints>

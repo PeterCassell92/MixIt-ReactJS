@@ -4,20 +4,119 @@
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 
+//SQL TOOLS
+function escapeSqlStringData(s)
+{
+	if (!s)
+		return s;
+	
+	// Check the parameter is a string
+	var t = typeof s;	
+	if (t != "string")
+		return s;
+			
+	// Change ' to ''
+	var parts = s.split("'");
+  s = parts.join("''");
+	return s;	
+}
+
+/**
+ * Utility function for use when updating or inserting character data columns into the database
+ * 1. Encloses the value in quotes 
+ * 2. Escapes any single quotes in the string
+ * 3. Handles null and undefined values (these will result in null in the database)
+ */
+function createSqlString(str)
+{
+	if (!isNullOrUndefined(str))
+		return "'" + escapeSqlStringData(str) + "'";
+	else
+		return "NULL";
+}
+
+function createSqlNum(num)
+{
+	if (!isNullOrUndefined(num))
+		if(typeof num == "number" || (typeof num =="string" &amp;&amp; num.match('/\D/g') == null)){
+			return num.toString()
+		}
+		else{
+			throw ERR_404_INVALID_DATA_TYPE;
+		}
+	else
+		return "NULL";
+}
+
+/**
+ * Creates a list for use in SQL. sql strings within the array are sanitized
+ * @param array
+ */
+function createSqlList(array){
+	if(!array || array.length == 0){
+		return "NULL";
+	}
+	var sqlArray;
+	switch(typeof array[0]){
+		case ("string"):
+			var strArray = array.map(elem =&gt; {return createSqlString(elem)});
+			sqlArray = strArray.join(",");
+			break;
+		default:
+			sqlArray = array.join(",");
+			break;
+	}
+	return sqlArray;
+}
+
+function createSqlDate(date){
+	if(isNullOrUndefined(date)){
+		return "NULL";
+	}
+	//convert to moment if not moment
+	if (!moment.isMoment(date)){
+		date = moment(date);
+	}
+
+	return "DATE '" + date.format('YYYY-MM-DD') + "'"
+}
+
+function createSqlBool(bool){
+	if(isNullOrUndefined(bool)){
+		return "NULL";
+	}
+
+	if(typeof bool == "boolean"){
+		if(bool){return "TRUE";}
+		else{return "FALSE";}
+	}
+		else{
+		throw ERR_404_INVALID_DATA_TYPE;
+	}
+}
+
+function isNullOrUndefined(obj)
+{
+	return obj == null || (typeof(obj) == 'undefined');
+}
+
 const db = 'tasktracker';
 
 function getAllTasks(){
 	var data = {tasks: []}
-	var sql = "SELECT id, name, day, reminder FROM task" ;
+	//validate and sanitise id
+	var sql = "SELECT id, name as text, day, reminder FROM task" ;
 	services.database.executeSelectStatement(db, sql, function (r){
 			data.tasks.push(r);
 		});
 	return data;
 }
 
+//DATABASE INTERACTIONS
 function getTask(id){
 	var data = false;
-	var sql = "SELECT id, name, day, reminder FROM task where id = " + id; 
+	//validate and sanitise id
+	var sql = "SELECT id, name as text, day, reminder FROM task where id = " + createSqlNum(id); 
 	services.database.executeSelectStatement( db, sql, function (r){
 			data = r;
 		});
@@ -25,9 +124,10 @@ function getTask(id){
 }
 
 function deleteTask(id){
-	var sql = "DELETE FROM task where id = " + id; 
+	//validate and santise id
+	var sql = "DELETE FROM task where id = " + createSqlNum(num); 
 	services.database.executeGenericUpdateStatement(db, sql)
-	services.database.executeSeleStatement( db, sql, function (r){
+	services.database.executeSelectStatement( db, sql, function (r){
 			data = r;
 		});
 	return true;
@@ -35,22 +135,17 @@ function deleteTask(id){
 
 function addTask(task){
 	var data = false;
-	var sql = "DELETE FROM task where id = " + id; 
-	services.database.executeGenericUpdateStatement(db, sql)
-	services.database.executeSeleStatement( db, sql, function (r){
-			data = r;
-		});
-	return true;
+	//sanitise this SQL
+	var sql = "INSERT INTO task (name, day, reminder) VALUES ("+createSqlString(task.text)+","+createSqlString(task.day)+","+createSqlBool(task.reminder)+")";
+	var resp = services.database.executeGenericUpdateStatement(db, sql);
+	return resp
 }
 
 function toggleReminder(id){
 	var data = false;
-	var sql = "UPDATE  FROM task where id = " + id; 
-	services.database.executeGenericUpdateStatement(db, sql)
-	services.database.executeSeleStatement( db, sql, function (r){
-			data = r;
-		});
-	return true;
+	var sql = "UPDATE task SET reminder = NOT reminder where id = " + createSqlNum(id); 
+	var resp = services.database.executeGenericUpdateStatement(db, sql);
+	return getTask(id)
 }
 </scriptText>
     </script>

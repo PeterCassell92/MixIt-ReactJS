@@ -97,6 +97,7 @@ const json_server_api = {
         getAllTasks:  async () => {
             const res = await fetch(`${json_server_base_url}/tasks`)
             const data = await res.json()
+            console.log(data)
             return data
         },
         getTask: async (id) => {
@@ -120,7 +121,7 @@ const json_server_api = {
             return data
         },
         toggleReminder: async (id) => {
-            const taskToToggle = await fetchTask(id)
+            const taskToToggle = await json_server_api.getTask(id)
             const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
             const res = await fetch(`${json_server_base_url}/tasks/${id}`, {
                 method: 'PUT',
@@ -136,19 +137,18 @@ const json_server_api = {
 }
 
 const verj_ext = 'api/task_tracker/v1'
-//const verj_base_url = `http://localhost:3050`
-const verj_base_url = 'http://pcsandbox.verj.cloud'
+const verj_base_url = 'https://pcsandbox.verj.cloud'
 const verj_api = {
     tasks:{
         getAllTasks:  async () => {
-            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks`, { method: 'GET'})
-            const data = await res.json()
-            return data
+            const res =  await fetch(`${verj_base_url}/${verj_ext}/tasks`)
+            const data = await res.json()         
+            return data.data.tasks
         },
         getTask: async (id) => {
-            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}`)
+            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}/get`)
             const data = await res.json()
-            return data
+            return data.data.task
         },
         deleteTask: async (id) => {
             const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}`,
@@ -157,7 +157,7 @@ const verj_api = {
             return data
         },
         addTask: async (task) =>{
-            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks` ,
+            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks`,
             {
                 method:'POST',
                 headers: {
@@ -169,17 +169,13 @@ const verj_api = {
             return data
         },
         toggleReminder: async (id) => {
-            const taskToToggle = await fetchTask(id)
-            const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
-            const res = await fetch(`${verj_base_url}//${verj_ext}tasks/${id}`, {
-                method: 'PUT',
-                headers: {
-                'Content-type': 'application/json'
-                },
-                body: JSON.stringify(updTask)
-            })
+            //const taskToToggle = await this.getTask(id)
+            //const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
+            //reduced to one api call. This would ideally be a PATCH method
+            //but this is not supported by Verj.io backend
+            const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}/togglereminder`)
             const data = await res.json()
-            return data
+            return data.data
         }
     }
 }

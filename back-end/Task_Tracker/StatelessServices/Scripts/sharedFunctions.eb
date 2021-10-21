@@ -4,8 +4,12 @@
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 
-//Intended for checks which are common across multiple endpoint events. I.e. checking Basic Authentication credentials. Checking method is allowed etc.
+//Custom Errors
+const ERR_404_INVALID_DATA_TYPE = new TypeError("404: Data does not meet required type.");
+const ERR_405_INVALID_HTTP_TYPE = new Error("405:No HTTP Method specified or invalid HTTP Method used");
+const ERR_400_BAD_REQ_NO_BODY= new Error("400:Bad Request - No Request Body provided.");
 
+//Intended for checks which are common across multiple endpoint events. I.e. checking Basic Authentication credentials. Checking method is allowed etc
 /**@desc compares the submitted basic authentication credentials (decrypted) for exact match with the username and password as set in the properties file
  * @param credentials = basicAuthentication credentials object
  */
@@ -27,13 +31,13 @@ function checkBasicAuthentication(credentials){
  * @param error Error Object - with error.message in the format "errorcode:errormessage"
  */
 function setErrorResponse(error){
+	log("error object:");
+	log(JSON.stringify(error, null, 3));
 	var arr = error.message.split(':');
 
 	//the message has been formatted correctly
-	if(arr.length == 2 &amp;&amp; arr[0].match(/^\d*/)){
-		log(arr[0]);
+	if(arr.length == 2 &amp;&amp; arr[0].match(/^\d*/) &amp;&amp;  typeof Number(arr[0]) == "number" ){
 		 form.rest.setResponseStatus(arr[0]);
-
   	form.rest.setResponseBody(JSON.stringify({
     	msg: arr[1]
  		}));
@@ -49,72 +53,6 @@ function setErrorResponse(error){
     	msg: error.message
  		}));
 	}
-}
-//
-///**
-// * @desc randomize the position of all cards in a zone.
-// */
-//function shuffleCards(cardsArr, zone){
-//	var cardsInZone = [];
-//	var cardsNotInZone = [];
-//	cardsArr.forEach(card =&gt; {
-//		if(card.zone = zone){
-//			cardsInZone.push(card)
-//		}
-//		else{
-//			cardsNotInZone.push(card)
-//		}
-//	});
-//
-//	if (cardsInZone.length &gt; 0){
-//		var shuffledCards = shuffle(cardsInZone);
-//		shuffledCards.forEach((card, i) =&gt; {card.position = i});
-//		//return shuffled cards recombined with the remaining cards.
-//		return shuffledCards.concat(cardsNotInZone);
-//	}
-//	else{
-//		//no cards in zone
-//		return cardsArr;
-//	}
-//}
-//
-//function fetchDeckByDeckId(deckId){
-//	if(!deckId){
-//		throw new Error("403:No deck_id provided in the path parameters");
-//	}
-//	
-//	fields.selectedDeckId.value = form.rest.getPathParameter('deck_id');
-//	var records = resources.decks.fetch();
-//	if (records == 1){
-//		return true;
-//	}
-//	else{
-//		throw new Error("403:No Deck found with deck_id "+ deckId);
-//	}	
-//}
-//
-///**
-// * @desc checks if a zone parameter is valid
-// */
-//function validateZone(zone){
-//	if (!ZONES_STANDARD.some( z =&gt; (z == zone))){
-//		throw new Error("403:Zone Parameter Invalid. Use one of " + ZONES_STANDARD.toString());
-//	}
-//	else{
-//		return true;
-//	}
-//}
-///**
-// * @desc checks if a suit parameter is valid
-// */
-//function validateSuit(suit){
-//	if (!SUITS.some( s =&gt; (s == suit))){
-//			throw new Error("403:Suit Parameter Invalid (must be one of " + SUITS.toString());
-//	}
-//	else{
-//		return true;
-//	}
-//}
-</scriptText>
+}</scriptText>
     </script>
 </ebase>
