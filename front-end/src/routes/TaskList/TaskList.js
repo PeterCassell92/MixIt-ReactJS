@@ -6,14 +6,18 @@ import Tasks from "../../components/Tasks"
 import Header from "../../components/Header"
 import {selected_api as api} from "../../common/api"
 
-function TaskList() {    
+function TaskList() {
+    const [tasks, setTasks]= useState([])
+    const [showAddTask, setShowAddTask] = useState(false)
+
     const addTask = async (task) => {
         const data = await api.tasks.addTask(task)
         setTasks([...tasks, data])
     }
 
     const deleteTask = async (id) =>{
-        await api.tasks.deleteTask(id)
+        const data = await api.tasks.deleteTask(id)
+        await 
         setTasks(tasks.filter((task) => task.id !==id))
     }
 
@@ -30,9 +34,6 @@ function TaskList() {
         getTasks()
     }, [])
 
-    const [tasks, setTasks]= useState([])
-    const [showAddTask, setShowAddTask] = useState(false)
-    
     return (
         <>
             <Header buttonOnClick={() => setShowAddTask(!showAddTask)}

@@ -43,7 +43,7 @@ function Content() {
 
   return (
     <Wrapper routes={routes}>         
-      <GenericRouter routes={routes} />
+      <GenericRouter routes={routes}/>
     </Wrapper>
   );
 }

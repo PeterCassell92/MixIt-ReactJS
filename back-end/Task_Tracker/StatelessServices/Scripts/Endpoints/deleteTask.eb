@@ -18,7 +18,7 @@ try{
 	    form.rest.setResponseStatus(200);
 	  break;
 	  default:
-			throw new Error("405:No HTTP Method specified or invalid HTTP Method used");
+			throw ERR_405_INVALID_HTTP_TYPE;
 	  break;
 	}
 }

@@ -116,9 +116,14 @@ function getAllTasks(){
 function getTask(id){
 	var data = false;
 	//validate and sanitise id
-	var sql = "SELECT id, name as text, day, reminder FROM task where id = " + createSqlNum(id); 
+	var sql = "SELECT id, name, day, reminder FROM task where id = " + createSqlNum(id); 
 	services.database.executeSelectStatement( db, sql, function (r){
-			data = r;
+			data = {
+				id: r.id,
+				text: r.name,
+				day: r.day,
+				reminder: r.reminder				
+			};
 		});
 	return data;
 }
@@ -127,9 +132,6 @@ function deleteTask(id){
 	//validate and santise id
 	var sql = "DELETE FROM task where id = " + createSqlNum(num); 
 	services.database.executeGenericUpdateStatement(db, sql)
-	services.database.executeSelectStatement( db, sql, function (r){
-			data = r;
-		});
 	return true;
 }
 

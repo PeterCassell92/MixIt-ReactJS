@@ -7,7 +7,8 @@ importPackage(com.ebasetech.xi.services);
 try{
 	//generate response based on method used. 
 	switch (form.rest.getMethod()){			
-	  case "GET":
+	  case "PUT":
+	  case "POST":
 	  	var id = form.rest.getPathParameter('id'); 
 	  	var resp = toggleReminder(id);
 	  	

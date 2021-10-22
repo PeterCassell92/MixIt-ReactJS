@@ -27,7 +27,8 @@
             </endpoint>
             <endpoint name="toggleReminder" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/toggleReminder" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/{id}/togglereminder" contentType="">
                 <methods>
-                    <method>GET</method>
+                    <method>POST</method>
+                    <method>PUT</method>
                 </methods>
             </endpoint>
             <endpoint name="addTask" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/addTask" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks/add" contentType="application/json">
