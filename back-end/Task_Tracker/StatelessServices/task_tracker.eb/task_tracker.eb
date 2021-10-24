@@ -5,10 +5,6 @@
             <sharedFunctionScript path="/StatelessServices/Scripts/sharedFunctions"/>
             <sharedFunctionScript path="/StatelessServices/Scripts/databaseFunctions"/>
         </sharedFunctionScripts>
-        <resources>
-            <resource name="single_task" path="/StatelessServices/single_task"/>
-            <resource name="tasks" path="/StatelessServices/tasks"/>
-        </resources>
         <restfulEndpoints>
             <endpoint name="getAllTasks" endpointEvent="/StatelessServices/Scripts/sharedEndpointHandlingEvent,/StatelessServices/Scripts/Endpoints/getAllTasks" onErrorEvent="/StatelessServices/Scripts/onErrorEndpointHandlingEvent" path="/v1/tasks" contentType="">
                 <methods>

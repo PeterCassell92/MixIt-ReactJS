@@ -130,7 +130,7 @@ function getTask(id){
 
 function deleteTask(id){
 	//validate and santise id
-	var sql = "DELETE FROM task where id = " + createSqlNum(num); 
+	var sql = "DELETE FROM task where id = " + createSqlNum(id); 
 	services.database.executeGenericUpdateStatement(db, sql)
 	return true;
 }
@@ -140,7 +140,7 @@ function addTask(task){
 	//sanitise this SQL
 	var sql = "INSERT INTO task (name, day, reminder) VALUES ("+createSqlString(task.text)+","+createSqlString(task.day)+","+createSqlBool(task.reminder)+")";
 	var resp = services.database.executeGenericUpdateStatement(db, sql);
-	return resp
+	return resp;
 }
 
 function toggleReminder(id){

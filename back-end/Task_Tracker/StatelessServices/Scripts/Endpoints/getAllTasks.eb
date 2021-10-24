@@ -13,6 +13,7 @@ try{
 	    form.rest.setResponseBody(JSON.stringify({
 	      data: data,
 	      msg: "All Tasks Retrieved",
+	      success: true
 	    }));
 
 	    form.rest.setResponseHeader("Content-type", "application/json");

@@ -14,6 +14,12 @@ try{
 			}
 			
 			var task = JSON.parse(body);
+
+			//catch any missing attributes
+			if(!task.text){throw new HTTPError("400", "Bad Request. Task object does not contain 'text' attribute");}
+			if(!task.day){throw new HTTPError("400", "Bad Request. Task object does not contain 'day' attribute");}
+			if(isNullOrUndefined(task.reminder)){throw new HTTPError("400", "Bad Request. Task object does not contain 'reminder' attribute");}
+			
 	  	var resp = addTask(task);
 
 			var taskwithid = {
@@ -25,9 +31,11 @@ try{
 			//set response data
 	    form.rest.setResponseBody(JSON.stringify({
 	      data: taskwithid,
-	      msg: "Task Added Successfully."
+	      msg: "Task Added Successfully.",
+	      success: true
 	    }));
-	    form.rest.setResponseStatus(200);
+	    form.rest.setResponseStatus(201);
+	    form.rest.setResponseHeader("Content-type", "application/json");
 	  break;
 	  default:
 			throw ERR_405_INVALID_HTTP_TYPE;

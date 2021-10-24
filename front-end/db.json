@@ -1,12 +1,6 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "text": "Doctors Appointment",
-      "day": "Feb 5th at 2:30pm",
-      "reminder": true
-    },
-    {
       "text": "Test React",
       "day": "9am Tuesday",
       "reminder": true,
@@ -15,8 +9,14 @@
     {
       "text": "Task1",
       "day": "9pm",
-      "reminder": false,
+      "reminder": true,
       "id": 3
+    },
+    {
+      "text": "Go To Training",
+      "day": "7pm",
+      "reminder": false,
+      "id": 4
     }
   ]
 }

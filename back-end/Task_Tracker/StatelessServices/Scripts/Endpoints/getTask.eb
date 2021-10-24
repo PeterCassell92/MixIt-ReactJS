@@ -9,11 +9,19 @@ try{
 	  case "GET":
 			var id = form.rest.getPathParameter("id");
 	  	var task = getTask(id);
+
+			//Error if task does not exist
+	  	if(!task){
+	  		throw ERR_400_BAD_REQ_INVALID_TASK_ID;
+	  	}
+	  	
 	  	form.rest.setResponseBody(JSON.stringify({
 	  			data: task,
-	  			msg: "Task " + id + " Retrieved"
+	  			msg: "Task " + id + " Retrieved",
+	  			success: true
 	  		}));
 	    form.rest.setResponseStatus(200);
+	    form.rest.setResponseHeader("Content-type", "application/json");
 	  	break;
 	  default:
 			throw ERR_405_INVALID_HTTP_TYPE;

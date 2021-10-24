@@ -8,22 +8,30 @@ try{
 	//generate response based on method used. 
 	switch (form.rest.getMethod()){			
 	  case "PUT":
-	  case "POST":
 	  	var id = form.rest.getPathParameter('id'); 
+
+	  	var task = getTask(id);
+	  	//Error if task does not exist
+	  	if(!task){
+	  		throw ERR_400_BAD_REQ_INVALID_TASK_ID;
+	  	}
 	  	var resp = toggleReminder(id);
 	  	
 			var updatedTask = {
 				id: id,
-				text: resp.name,
+				text: resp.text,
 				day: resp.day,
 				reminder: resp.reminder
 			}
 			//set response data
 	    form.rest.setResponseBody(JSON.stringify({
 	    	data: updatedTask,
-	      msg: "Reminder Toggled"
+	      msg: "Reminder Toggled",
+	      success: true
 	    }));
+	    form.rest.setResponseHeader("Content-type", "application/json");
 	    form.rest.setResponseStatus(200);
+	    
 	  break;
 	  default:
 			throw ERR_405_INVALID_HTTP_TYPE;

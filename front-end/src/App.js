@@ -50,7 +50,6 @@ function Content() {
 
 function App() {
   //app state goes here. Presently all app state has been neatly consolidated in routes.
-
   return (
     <Router>
         <Content/>

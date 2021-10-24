@@ -4,26 +4,61 @@
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 
+//CONSTANTS
+const PROPERTIES_FILE = "tasktracker.properties";
+
+//ES6
+//class MyError extends Error {
+//  constructor(message) {
+//    super(message);
+//    this.name = 'MyError';
+//  }
+//}
+
+function HTTPError(httpCode, respMessage ) {
+    this.name = "HTTPError";
+    this.code = httpCode;
+    this.message = respMessage;
+    this.stack = (new Error()).stack;
+}
+HTTPError.prototype = new Error;
+
 //Custom Errors
-const ERR_404_INVALID_DATA_TYPE = new TypeError("404: Data does not meet required type.");
-const ERR_405_INVALID_HTTP_TYPE = new Error("405:No HTTP Method specified or invalid HTTP Method used");
-const ERR_400_BAD_REQ_NO_BODY= new Error("400:Bad Request - No Request Body provided.");
+const ERR_401_INVALID_CREDENTIALS = new HTTPError(
+	"401","Invalid Credentials"
+	);
+const ERR_401_NO_CREDENTIALS = new HTTPError(
+	"401", "Credentials not Provided"
+	);
+const ERR_404_INVALID_DATA_TYPE = new HTTPError(
+	"404" , "Data does not meet required type."
+	);
+const ERR_405_INVALID_HTTP_TYPE = new HTTPError(
+	"405 , No HTTP Method specified or invalid HTTP Method used"
+	);
+const ERR_400_BAD_REQ_NO_BODY= new HTTPError(
+	"400", "Bad Request - No Request Body provided."
+	);
+const ERR_400_BAD_REQ_INVALID_TASK_ID = new HTTPError(
+	"400", "Bad Request - id does not exist."
+	);
+
+	
 
 //Intended for checks which are common across multiple endpoint events. I.e. checking Basic Authentication credentials. Checking method is allowed etc
 /**@desc compares the submitted basic authentication credentials (decrypted) for exact match with the username and password as set in the properties file
  * @param credentials = basicAuthentication credentials object
  */
 function checkBasicAuthentication(credentials){
-
 	if(!credentials){
-		throw new Error("401:Credentials not Provided");
+		throw ERR_401_NO_CREDENTIALS;
 	}
 
 	if(credentials.getUsername() == getProperty('basicAuthUsername') &amp;&amp; credentials.getPassword()== getProperty('basicAuthPassword')){
 		return true;
 	}
 	else{
-		throw new Error("401:Invalid Credentials");
+		throw ERR_401_INVALID_CREDENTIALS;
 	}
 }
 
@@ -31,28 +66,42 @@ function checkBasicAuthentication(credentials){
  * @param error Error Object - with error.message in the format "errorcode:errormessage"
  */
 function setErrorResponse(error){
-	log("error object:");
-	log(JSON.stringify(error, null, 3));
-	var arr = error.message.split(':');
+	log("Error Handled at endpoint"  + form.rest.endpointPath);
+		var req = {
+		method: form.rest.method,
+		body: form.rest.requestBody,
+		contentType: form.rest.requestContentType,
+		pathParams: form.rest.pathParameters		
+	};
+	log("Request:\n" +JSON.stringify(req, null, 3));
+	log("---   ----  ---");
+	log("Error Details\n" + JSON.stringify(error, null, 3));
 
-	//the message has been formatted correctly
-	if(arr.length == 2 &amp;&amp; arr[0].match(/^\d*/) &amp;&amp;  typeof Number(arr[0]) == "number" ){
-		 form.rest.setResponseStatus(arr[0]);
+	if(error.name === "HTTPError"){
+		form.rest.setResponseStatus(error.code);
   	form.rest.setResponseBody(JSON.stringify({
-    	msg: arr[1]
- 		}));
-	
- 		//form.rest.setResponseHeader("WWW-Authenticate", "Basic");
-	}
-	//otherwise this is going to be an uncaught (server) error.
-	else{
-		log(error.message);
-		form.rest.setResponseStatus(500);
-
-		form.rest.setResponseBody(JSON.stringify({
     	msg: error.message
  		}));
 	}
+
+	//otherwise this is going to be an uncaught (server) error.
+	else{
+		//log line / stack if possible. TODO
+		form.rest.setResponseStatus(500);
+		form.rest.setResponseBody(JSON.stringify({
+    	msg: "Something went wrong. please notify our team"
+ 		}));
+	}
+}
+
+function getProperty(propertyName)
+{
+	var props = system.loadPropertiesFromClasspath(PROPERTIES_FILE);
+	if (!props)
+	{
+		abort("Properties file " + PROPERTIES_FILE + " not found");
+	}
+	return props[propertyName];
 }</scriptText>
     </script>
 </ebase>

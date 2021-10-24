@@ -4,7 +4,6 @@
         <scriptText>importPackage(com.ebasetech.xi.api);
 importPackage(com.ebasetech.xi.services);
 
-
 //Allows requests from all origins.
 form.rest.setResponseHeader('Access-Control-Allow-Origin', '*');
 
