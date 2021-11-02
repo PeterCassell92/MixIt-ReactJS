@@ -9,7 +9,7 @@ import {
   matchPath
 } from 'react-router-dom';
 
-import themes from './Common/theme';
+import {selectedTheme as theme } from './common/themes/theme';
 import { getFromLocalStorage } from './Common/storage';
 import { isStandaloneMode } from './Common/platform';
 import {
@@ -27,7 +27,7 @@ import {
 } from './common/routes.js';
 
 import { GenericRouter } from './Components/Routes';
-import Spinner from './Components/Spinner';
+
 const Menu = React.lazy(() => import('./Components/Menu/Menu'));
 
 const Authentication = React.lazy(() => import('./Routes/Authentication/Authentication'));
@@ -37,8 +37,8 @@ const AppOuterWrapper = styled.div`
   min-width: 100vw;
 
   background-color: ${props => props.tinted
-    ? props.theme.onboarding.background
-    : props.theme.background};
+    ? theme.main.color.tinted
+    :theme.main.color.background};
 `;
 
 const AppInnerWrapper = styled.div`
@@ -71,8 +71,8 @@ const AppBody = styled.main`
   }
 
   background-color: ${props => props.tinted
-    ? props.theme.onboarding.background
-    : props.theme.background};
+    ? theme.main.color.tinted
+    : theme.main.color.background};
 `;
 
 const AppFooter = styled.footer`

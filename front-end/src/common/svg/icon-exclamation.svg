@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<svg
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://web.resource.org/cc/"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    id="Layer_6"
+    version="1.1"
+    xml:space="preserve"
+    viewBox="0 0 42 42"
+    enable-background="new 0 0 42 42"
+    y="0px"
+    x="0px"
+  >
+	<path
+      d="m41.002 38c0 1.657-1.343 3-3 3h-34c-1.657 0-3-1.343-3-3v-34c0-1.657 1.343-3 3-3h34c1.657 0 3 1.343 3 3v34z"
+      fill="#fff"
+  />
+		<linearGradient
+      id="SVGID_1_"
+      x1="306"
+      gradientUnits="userSpaceOnUse"
+      y1="-333"
+      gradientTransform="matrix(1 0 0 -1 -285 -332)"
+      x2="306"
+      y2="-373"
+    >
+		<stop
+        stop-color="#F6B214"
+        offset="0"
+    />
+		<stop
+        stop-color="#9F5801"
+        offset="1"
+    />
+	</linearGradient
+  >
+	<path
+      d="m37.002 5v32h-32v-32h32m1-4h-34c-1.657 0-3 1.343-3 3v34c0 1.657 1.343 3 3 3h34c1.657 0 3-1.343 3-3v-34c0-1.657-1.343-3-3-3z"
+      fill="url(#SVGID_1_)"
+  />
+	<path
+      d="m19.688 26.797l-1.141-11.625v-5.375h4.75v5.375l-1.125 11.625h-2.484zm-0.954 5.906v-4.391h4.391v4.391h-4.391z"
+      fill="#D08D00"
+  />
+<metadata
+    ><rdf:RDF
+      ><cc:Work
+        ><dc:format
+          >image/svg+xml</dc:format
+        ><dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        /><cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        /><dc:publisher
+          ><cc:Agent
+              rdf:about="http://openclipart.org/"
+            ><dc:title
+              >Openclipart</dc:title
+            ></cc:Agent
+          ></dc:publisher
+        ><dc:title
+          >dwcheck99 "See advisor"</dc:title
+        ><dc:date
+          >2013-04-30T15:47:35</dc:date
+        ><dc:description
+          >icon, yellow, warning, exclamation, problems</dc:description
+        ><dc:source
+          >https://openclipart.org/detail/177569/dwcheck99-see-advisor-by-forest51690-177569</dc:source
+        ><dc:creator
+          ><cc:Agent
+            ><dc:title
+              >forest51690</dc:title
+            ></cc:Agent
+          ></dc:creator
+        ><dc:subject
+          ><rdf:Bag
+            ><rdf:li
+              >exclamation</rdf:li
+            ><rdf:li
+              >icon</rdf:li
+            ><rdf:li
+              >problems</rdf:li
+            ><rdf:li
+              >warning</rdf:li
+            ><rdf:li
+              >yellow</rdf:li
+            ></rdf:Bag
+          ></dc:subject
+        ></cc:Work
+      ><cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        ><cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        /><cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        /><cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        /></cc:License
+      ></rdf:RDF
+    ></metadata
+  ></svg
+>

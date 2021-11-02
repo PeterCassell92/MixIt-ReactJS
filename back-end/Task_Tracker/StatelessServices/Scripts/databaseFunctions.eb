@@ -100,6 +100,10 @@ function isNullOrUndefined(obj)
 	return obj == null || (typeof(obj) == 'undefined');
 }
 
+//-------------------------
+//DATABASE INTERACTIONS
+//-------------------------
+
 const db = 'tasktracker';
 
 function getAllTasks(){
@@ -112,7 +116,7 @@ function getAllTasks(){
 	return data;
 }
 
-//DATABASE INTERACTIONS
+
 function getTask(id){
 	var data = false;
 	//validate and sanitise id

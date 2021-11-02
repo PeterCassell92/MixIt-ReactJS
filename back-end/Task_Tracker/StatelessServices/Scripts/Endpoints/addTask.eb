@@ -16,8 +16,8 @@ try{
 			var task = JSON.parse(body);
 
 			//catch any missing attributes
-			if(!task.text){throw new HTTPError("400", "Bad Request. Task object does not contain 'text' attribute");}
-			if(!task.day){throw new HTTPError("400", "Bad Request. Task object does not contain 'day' attribute");}
+			if(isNullOrUndefined(task.text)){throw new HTTPError("400", "Bad Request. Task object does not contain 'text' attribute");}
+			if(isNullOrUndefined(task.day)){throw new HTTPError("400", "Bad Request. Task object does not contain 'day' attribute");}
 			if(isNullOrUndefined(task.reminder)){throw new HTTPError("400", "Bad Request. Task object does not contain 'reminder' attribute");}
 			
 	  	var resp = addTask(task);

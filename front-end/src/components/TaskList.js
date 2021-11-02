@@ -1,12 +1,12 @@
 import { useEffect,useState } from "react"
 
 //components
-import AddTask from "../../components/AddTask"
-import Tasks from "../../components/Tasks"
-import Header from "../../components/Header"
-import {selected_api as api} from "../../common/api"
+import AddTask from "./AddTask"
+import Tasks from "./Tasks"
+import SectionHeader from "./SectionHeader"
+import {selected_api as api} from "../common/api"
 import Swal from "sweetalert2"
-import SwalConfig from "../../common/lib_extensions/swal_config"
+import SwalConfig from "../common/lib_extensions/swal_config"
 
 function TaskList() {
     const [tasks, setTasks]= useState([])
@@ -40,7 +40,6 @@ function TaskList() {
             .catch((err) => {
                 Swal.fire(new SwalConfig({error:true, text: "Unable to Toggle Reminder"}))
             })
-        
     }
 
     useEffect(()=> {
@@ -50,7 +49,6 @@ function TaskList() {
                 setTasks(sortedTasks)
             })
             .catch((err)=>{
-                console.log("Error:" + err)
                 Swal.fire(new SwalConfig({error:true, text: "Unable to Retrieve Tasks"}))
             })      
         }        
@@ -58,23 +56,21 @@ function TaskList() {
     }, [])
 
     return (
-        <>
-            <section className="d-flex">
-                <div className= "col-12">
-                <Header buttonOnClick={() => setShowAddTask(!showAddTask)}
-                        showButton={true}
-                        buttonColor={showAddTask? 'red': 'green'}
-                        buttonText={showAddTask? 'Close':'Add'}/>
+        <main>
+            <SectionHeader
+                title="Process Builder"
+                buttonOnClick={() => setShowAddTask(!showAddTask)}
+                showButton={true}
+                buttonColor={showAddTask? 'var(--text)': 'var(--secondary)'}
+                buttonText={showAddTask? 'Close':'Add'}/>
                         
-                {showAddTask && <AddTask onAdd={addTask}/>}
-                {tasks.length > 0 ? (
-                    <Tasks tasks={tasks}
-                        onDelete={deleteTask} onToggle={toggleReminder}/>
-                    ) :
-                    'No Tasks to Display' }
-                </div>    
-            </section>
-        </>
+            {showAddTask && <AddTask onAdd={addTask}/>}
+            {tasks.length > 0 ? (
+                <Tasks tasks={tasks}
+                    onDelete={deleteTask} onToggle={toggleReminder}/>
+                ) :
+                'No Steps to Display' }
+        </main>
     )
 }
-export default TaskList
+export default TaskList;

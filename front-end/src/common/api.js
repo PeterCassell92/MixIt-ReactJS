@@ -148,9 +148,6 @@ const verj_base_url = 'https://pcsandbox.verj.cloud'
 const verj_api = {
     tasks:{
         getAllTasks:  async () => {
-            // const res =  await fetch(`${verj_base_url}/${verj_ext}/tasks`)
-            // const data = await res.json()
-
             const data = await promisifyAPI(`${verj_base_url}/${verj_ext}`, 'tasks')
             return (data.hasOwnProperty('data') &&
             data.data.hasOwnProperty('tasks') &&
@@ -166,10 +163,6 @@ const verj_api = {
               `tasks/${id}/delete`,
               null,
               'DELETE')
-
-            // const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}/delete`,
-            //     { method: 'DELETE' })
-            // const data = await res.json()
             return data
         },
         addTask: async (task) =>{
@@ -180,24 +173,12 @@ const verj_api = {
             {
               'Content-type': 'application/json'
             })
-
-            // const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/add`,
-            // {
-            //     method:'POST',
-            //     headers: {
-            //         'Content-type': 'application/json'
-            //     },
-            //     body: JSON.stringify(task)
-            // })      
-            // const data = await res.json()
             return data.data
         },
         toggleReminder: async (id) => {
           // method would ideally be a PATCH but this is not supported by Verj.io backend
-            const data = await promisifyAPI(`${verj_base_url}/${verj_ext}`, `tasks/${id}/togglereminder`, null, 'PUT')
-            // const res = await fetch(`${verj_base_url}/${verj_ext}/tasks/${id}/togglereminder`, {
-            //   method: 'PUT'})
-            // const data = await res.json()
+            const data = await promisifyAPI(`${verj_base_url}/${verj_ext}`,
+            `tasks/${id}/togglereminder`, null, 'PUT');
             return data.data
         }
     }

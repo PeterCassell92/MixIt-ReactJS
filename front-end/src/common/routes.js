@@ -2,9 +2,10 @@ import { Redirect } from 'react-router-dom'
 import { GenericRouter} from '../components/Routes'
 
 //Route Components
-import TaskList from '../routes/TaskList/TaskList'
+import Dashboard from '../routes/Dashboard/Dashboard';
 import About from '../components/About';
 import Profile from '../routes/Profile/Profile';
+import Admin from '../routes/Admin/Admin';
 import Error from '../routes/Error';
 
 const routes = [
@@ -14,8 +15,8 @@ const routes = [
       component: () => <Redirect to='/' />,
     },
     {
-      path: '/tasklist',
-      component: TaskList,
+      path: '/dashboard',
+      component: Dashboard,
       default: true
     },
     {
@@ -35,6 +36,11 @@ const routes = [
         },
       ]
     },
+    {
+      path:'/admin',
+      component: Admin
+    }
+    ,
     {
       path: '/error',
       component: Error

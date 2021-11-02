@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const StyledButton = styled.button`
+    background-color: ${props => props.color? props.color : 'var(--secondary)'}
+`
 
 function Button({color, text, onClick}) {
 
-    return (<button 
-        className='btn' 
-        style={{backgroundColor: color}} 
-        onClick = {onClick}    
+    return (<StyledButton 
+        className='btn'  
+        onClick = {onClick}
+        color = {color}
         >
         {text}
-        </button>)
+        </StyledButton>)
 }
 
 Button.defaultProps= {

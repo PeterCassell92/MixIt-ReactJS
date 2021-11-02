@@ -1,15 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from "react"
-import { BrowserRouter as Router,
-		Route,
-		useLocation,
-		useHistory
-	}	from 'react-router-dom';
+import { BrowserRouter as Router}	from 'react-router-dom';
+import styled from 'styled-components';
 
 //components
 import { GenericRouter } from './components/Routes';
-import Header from './components/Header'
 import Footer from './components/Footer'
 
 //Routes
@@ -17,44 +13,33 @@ import {
   routes as mainRoutes,
 } from './common/routes.js';
 
-//Constants
-import {
-	a
-} from './common/constants';
+const StyledWrapper = styled.div`
+  background-color: var(--primary);
+`
 
-
-function Wrapper({ routes, children, ...props }) {
+function Wrapper({children}) {
     return (
-    <div className ="container">
+    <StyledWrapper id="app-wrapper">
           {children}
-    </div>
+    </StyledWrapper>
   );
 }
 
-function Content() {
-  // const history = useHistory();
-  // const location = useLocation();
+function App() {
+  //app state goes here
 
   function getRoutes() {
    	return mainRoutes
   }
 
   const routes = getRoutes();
-
-  return (
-    <Wrapper routes={routes}>         
-      <GenericRouter routes={routes}/>
-    </Wrapper>
-  );
-}
-
-function App() {
-  //app state goes here. Presently all app state has been neatly consolidated in routes.
+  //Presently all app state has been neatly consolidated in routes and components.
   return (
     <Router>
-        <Content/>
-        {/* <Route path='/about' component={About}/> */}
-        <Footer/>
+        <Wrapper>         
+          <GenericRouter routes={routes}/>
+        </Wrapper>
+        {/* <Footer/> */}
     </Router>
   );
 }
