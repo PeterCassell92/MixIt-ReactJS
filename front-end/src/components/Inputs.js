@@ -16,7 +16,8 @@ const IconProps = [
   'complete',
   'link',
   'external-link',
-  'toggle'
+  'toggle',
+  'warning'
 ];
 
 function withPlaceholderText(component, color) {
@@ -165,9 +166,9 @@ const InputIconWrapper = withPlaceholderText(_InputIconWrapper);
 
 const InputSvg = styled(SVG)`
   height: ${props => props.size? props.size : theme.input.height.standard};
-  padding: 0 4px;
+  padding: ${props=> props.ypadding} ${props=> props.xpadding};
 
-  margin-right: ${props => props.margin || 0};
+  margin-right: ${props => props.rmargin || 0};
 
   ${props => props.success && css`
     & path {
@@ -176,12 +177,18 @@ const InputSvg = styled(SVG)`
   `}
 
   ${props => props.info && css`
+    
     & path {
       fill: ${props => theme.main.color.info};
     }
   `}
+  
+  ${props => props.warning && css`
+    // & path {
+    //   fill: ${props => theme.main.color.warning};
+    // }
+  `}
 `;
-
 // The chevron points to the left but we want it to point to the right
 // in this context. Transform and resize it.
 const ChevronIcon = styled(InputSvg)`
@@ -189,41 +196,73 @@ const ChevronIcon = styled(InputSvg)`
   width: 17px;
 `;
 
-// The margins here allow for small differences in the SVG assets
-// This isn't an ideal solution but it save reformatting a lot of SVGs
 function InputIcon(props) {
   if (props.complete) {
-    return <InputSvg margin='0px' src={CheckmarkIconSrc} success={1} />;
+    return <InputSvg
+    name="Check Icon"
+    rmargin='0px'
+    ypadding='0px'
+    xpadding='2px'
+    src={CheckmarkIconSrc}
+    success={1} />;
   }
-  console.log(`what is it?  ${props.warning}`)
-
+ 
   if (props.warning){
-    console.log("making icon happen")
-    return <InputSvg margin='0px' src={ExclamationIconSrc}/>;
+    return <InputSvg
+    name="Warning Icon"
+    rmargin='10px'
+    ypadding='4px'
+    xpadding='4px'
+    src={ExclamationIconSrc}
+    warning = {1}/>;
   }
 
   if (props.link) {
-    return <ChevronIcon margin='9px' src={ChevronIconSrc} info={1} />;
+    return <ChevronIcon
+    name="Chevron Icon"
+    rmargin='9px'
+    src={ChevronIconSrc}
+    info={1} />;
   }
 
   if (props['external-link']) {
-    return <InputSvg margin='6px' src={LinkIconSrc} info={1} />;
+    return <InputSvg
+    name="Link Icon"
+    rmargin='6px'
+    src={LinkIconSrc}
+    info={1} />;
   }
 
   if (props.icon === 'Chevron'){
-    return <ChevronIcon margin='9px' src={ChevronIconSrc} info={1} />;
+    return <ChevronIcon
+    name="Chevron Icon"
+    rmargin='9px'
+    src={ChevronIconSrc}
+    info={1} />;
   }
   return null;
 }
 
-function InputWrapper({className, ...props}) {
+
+function InputWrapper({className, id, label, visibleLabel, ...props}) {
   return (
-    <Row grow wrap='no-wrap'>
-      <StyledInput className={className} autoComplete='off' spellCheck='false' {...props} />
-      {propsIncludesIcon(props) && <InputIconWrapper naked={props.naked} tinted={props.tinted}>
-        <InputIcon {...props} />
-      </InputIconWrapper>}
-    </Row>
+    <Column id={`field-${id}`}>
+      <FieldLabel htmlFor={id} className={visibleLabel? "":"visually-hidden"}>
+        {label}:
+      </FieldLabel>
+      <Row grow wrap='no-wrap'>
+        <StyledInput
+        id={id}
+        name={id}
+        className={className}
+        autoComplete='off'
+        spellCheck='false'
+        {...props} />
+        {propsIncludesIcon(props) && <InputIconWrapper name="Icon Wrapper" naked={props.naked} tinted={props.tinted}>
+          <InputIcon {...props} />
+        </InputIconWrapper>}
+      </Row>
+    </Column>
   );
 }
 
@@ -511,7 +550,7 @@ const InputDateWithPlaceholder = styled(Input)`
   }
 
   &[type="date"]:focus {
-    color: ${props => props.theme.input.color};
+    color: ${props => theme.input.color.text};
   }
 
   &[type="date"][value=""]:before {
@@ -521,7 +560,7 @@ const InputDateWithPlaceholder = styled(Input)`
     padding: 11px 16px 11px 0;
 
     background-color: transparent;
-    color: ${props => props.theme.text.color.placeholder};
+    color: ${props => theme.input.color.placeholder};
   }
 
   &[type="date"]:focus:before {
@@ -582,10 +621,6 @@ function withoutScroll(WrappedComponent)  {
   });
 }
 
-// Inputs with associated FieldLabels
-// Pass label as props and the field will be automatically associated with it
-const InputLabelled = withLabel(Input);
-const InputDateLabelled = withLabel(InputDate);
 
 export {
   Input,
@@ -599,9 +634,6 @@ export {
   InputDate,
   TextArea,
   FieldLabel,
-  InputLabelled,
-  InputDateLabelled,
-  withLabel,
   withoutScroll
 };
 export default Input;

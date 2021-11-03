@@ -7,6 +7,7 @@ import SectionHeader from "./SectionHeader"
 import {selected_api as api} from "../common/api"
 import Swal from "sweetalert2"
 import SwalConfig from "../common/lib_extensions/swal_config"
+import { selectedTheme as theme } from "../common/themes/theme"
 
 function TaskList() {
     const [tasks, setTasks]= useState([])
@@ -56,12 +57,12 @@ function TaskList() {
     }, [])
 
     return (
-        <main>
+        <>
             <SectionHeader
                 title="Process Builder"
                 buttonOnClick={() => setShowAddTask(!showAddTask)}
                 showButton={true}
-                buttonColor={showAddTask? 'var(--text)': 'var(--secondary)'}
+                buttonColor={showAddTask? theme.main.color.textbody: theme.main.color.info}
                 buttonText={showAddTask? 'Close':'Add'}/>
                         
             {showAddTask && <AddTask onAdd={addTask}/>}
@@ -70,7 +71,7 @@ function TaskList() {
                     onDelete={deleteTask} onToggle={toggleReminder}/>
                 ) :
                 'No Steps to Display' }
-        </main>
+        </>
     )
 }
 export default TaskList;

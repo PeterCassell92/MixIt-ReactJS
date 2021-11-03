@@ -12,9 +12,10 @@ import {
     validateMobileNumber,
     validateEmail    
 } from "../../common/validators"
+import { selectedTheme as theme } from "../../common/themes/theme"
 import { Input, InputGroup } from "../../components/Inputs"
 import Button from "../../components/Button"
-import { Row ,Column } from "../../components/Flex"
+import { Row } from "../../components/Flex"
 import PageWrapper from "../../components/PageWrapper"
 import SectionHeader from "../../components/SectionHeader"
 import { ProfileImageUploader } from "../../components/Image/Image"
@@ -80,16 +81,40 @@ function Profile() {
 
     useEffect(() => {
         getFromLocalStorage(PERSONAL.keys.registered, setRegistered)
-        .then(() => {
-            console.log("Registered " + String(registered));
-            if(registered){
+        .then((isRegistered) => {
+            //if user is already registered then the profile information
+            //will need to be retrieved
+            //validity / attempted state will need to be set.
+            if(isRegistered){
                 Promise.all([
                     getFromLocalStorage(PERSONAL.keys.firstName, setFirstName),
                     getFromLocalStorage(PERSONAL.keys.surname, setSurname),
                     getFromLocalStorage(PERSONAL.keys.mobileNumber, setMobileNumber),
                     getFromLocalStorage(PERSONAL.keys.email, setEmail),
                     getFromLocalStorage(PERSONAL.keys.profileImage, setProfileImageSrc)
-                ]);              
+                ]).then((arr)=>{
+                    //set attempted / valid state for each field
+                    if(arr[0] != ''){
+                        setFirstNameAttempted(true);
+                        setFirstNameValid(validateFirstName(arr[0]).length === 0);
+                    }
+                    if(arr[1] != ''){
+                        setSurnameAttempted(true);
+                        setSurnameValid(validateSurname(arr[1]).length === 0);
+                    }
+                   
+                    if(arr[2] != ''){
+                        setMobileNumberAttempted(true);
+                        setMobileNumberValid(
+                            validateMobileNumber(arr[2]).length === 0
+                        );
+                    }
+                    if(arr[3] != ''){
+                        setEmailAttempted(true);
+                        setEmailValid(validateEmail(arr[3]).length === 0);
+                    }
+                      
+                });              
             }
             setReady(true);
         });
@@ -100,13 +125,11 @@ function Profile() {
     const handleRegisterOnClick = (e) => {
         e.preventDefault();
         //re-validate data prior to submission.
-
-        const fn = validateFirstName(firstName);
-        const sn = validateSurname(surname);
-        const mbn = validateMobileNumber(mobileNumber);
-        const em = validateEmail(email);
-
-        const validationErrors = [...fn, ...sn, ...mbn, ...em];
+        const validationErrors = [
+            ...validateFirstName(firstName),
+            ...validateSurname(surname),
+            ...validateMobileNumber(mobileNumber),
+            ...validateEmail(email)];
         if(validationErrors.length > 0){
             const content = (validationErrors.length > 1) ?
             `<ul><li>${validationErrors.join("</li><li>")}</li></ul>`:
@@ -129,7 +152,8 @@ function Profile() {
             Swal.fire(new SwalConfig({
                 success: true,
                 text: !registered ? "Registration Successful": "Profile Updated",
-                large: true
+                large: true,
+                preventOutsideClick: true
             }))
             .then((result) =>{
                 if(result.isConfirmed){
@@ -150,20 +174,28 @@ function Profile() {
         <>
         {ready && 
         <PageWrapper>
-            <Row justify='center'>
-                <form className = "col-12 col-lg-7">
+            <Row as="main" justify='center'>
+                <form className = "col-12 col-lg-7"
+                name="Profile Details"
+                aria-label="Profile Details"
+                onSubmit ={(e) => handleRegisterOnClick(e)}>
                     <SectionHeader
                     title={!registered? "Register" : "Profile"}
-                    textcolor = 'var(--off-white)'
+                    textcolor = {theme.main.color.textheading}
                     className="mt-4"/>
                     <ProfileImageWrapper justify="center">
                         <ProfileImageUploader
                         src={profileImageSrc}
                         height='200px'
+                        id="profile-image"
+                        name="profile-image"
+                        label="Profile Image"
                         onChange={handleProfileImageSrcChange} />
                     </ProfileImageWrapper>
                     <InputGroup className="py-2">
                         <Input
+                        id="firstname"
+                        label="First Name"
                         type="text"
                         placeholder="First Name"
                         value={firstName? firstName : ''}
@@ -171,6 +203,8 @@ function Profile() {
                         complete={firstNameAttempted && firstNameValid}
                         warning={firstNameAttempted && !firstNameValid}/>
                         <Input
+                        id="surname"
+                        label="Surname"
                         type="text"
                         placeholder="Last Name"
                         value={surname? surname: ''}
@@ -180,6 +214,8 @@ function Profile() {
                     </InputGroup>
                     <InputGroup className="py-2">  
                         <Input
+                        id="mobilenumber"
+                        label="Mobile Number"
                         type="text"
                         placeholder="Mobile Number"
                         value={mobileNumber? mobileNumber:''}
@@ -187,18 +223,23 @@ function Profile() {
                         complete={mobileNumberAttempted && mobileNumberValid}
                         warning={mobileNumberAttempted && !mobileNumberValid}/>
                         <Input
+                        id="email"
+                        label="Email"
                         type="text"
                         placeholder="Email Address"
                         value={email? email: ''}
                         onChange={handleEmailChange}
                         complete={emailAttempted && emailValid}
-                        warning={emailAttempted && emailValid}/>
+                        warning={emailAttempted && !emailValid}/>
                     </InputGroup>
                     <Row className= "pt-2 pb-4">
                         <Button
-                        color='var(--secondary)'
+                        id="update-profile-details-btn"
+                        name="Update Profile Details"
+                        aria-label="Update Profile Details"
+                        color={theme.main.color.info}
                         text={!registered? "Register" : "Update"}
-                        onClick={(e) => handleRegisterOnClick(e)}>
+                        >
                         </Button>
                     </Row>
                 </form>

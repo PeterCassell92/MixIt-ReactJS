@@ -1,17 +1,18 @@
 //regular theme.
 const Theme1 = {
     main: {
-        color: {
-            body: "var(--text)",
+        color: { 
+            textheading: "var(--off-white)",
+            textbody: "var(--off-white)",
             background: "var(--primary)",
             success: "var(--success)",
             error: "var(--danger)",
             warning: "var(--warning)",
             info: "var(--secondary)",
-            svgfill: "var(--primary)",
+            svgfill: "var(--off-white)",
+            linkhover:"var(--secondary)",
         },
         font :{
-    
         }
     },
     input:{
@@ -38,6 +39,18 @@ const Theme1 = {
 
         }
     },
+    container:{
+        color:{
+            background: "var(--off-white)",
+            textheading: "var(--off-white)",
+            textbody: "var(--off-white)",
+            svgfill: "var(--primary)",
+            border: "var(--tint)"
+        },
+        font:{
+
+        }
+    }
 
 };
 

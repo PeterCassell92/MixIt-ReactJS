@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import {selectedTheme as theme} from "../common/themes/theme"
 
 const StyledButton = styled.button`
-    background-color: ${props => props.color? props.color : 'var(--secondary)'}
+    background-color: ${props => props.color? props.color : theme.main.color.info}
 `
 
 function Button({color, text, onClick}) {
@@ -18,15 +19,13 @@ function Button({color, text, onClick}) {
 
 Button.defaultProps= {
     text: 'click',
-    color: 'steelblue',
     onClick: () => {
-        console.log('click')
+        console.log('click');
     },
 }
 
 Button.propTypes = {
     text: PropTypes.string,
-    color: PropTypes.string,
     onClick: PropTypes.func,
 }
 

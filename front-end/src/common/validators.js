@@ -56,7 +56,7 @@ const validateEmail = (val) =>{
   var validationErrors = [];
   if(val == ''){validationErrors.push('Email is Required')}
   else{
-      if(!isEmail(email)){validationErrors.push('Email Invalid')}
+      if(!isEmail(val)){validationErrors.push('Email Invalid')}
   }
   return validationErrors;
 }

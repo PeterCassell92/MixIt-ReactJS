@@ -1,5 +1,4 @@
-import React, {useState, Fragment} from 'react';
-import _uniqueId from 'lodash/uniqueId';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import SVG from 'react-inlinesvg';
 import { selectedTheme as theme } from '../../common/themes/theme';
@@ -14,7 +13,7 @@ const StyledSVG = styled(SVG)`
   padding-bottom: 16px;
 
   & path {
-    fill: ${props => props.fill|| theme.main.color.svgfill};
+    fill: ${props => props.fill|| theme.container.color.svgfill};
   }
 `;
 
@@ -50,28 +49,23 @@ const LabelWrapper = styled.label`
 `;
 
 const LinkText = styled.span`
-  cursor: pointer;
   position: relative;
   bottom: 16px;
-  
-
-  color: ${props => props.color || theme.main.color.svgfill};
+  color: ${props => props.color || theme.container.color.svgfill};
 `;
 
-function ProfilePlaceholder({link, ...props}) {
+function ProfilePlaceholder({placeholder, ...props}) {
   return (
     <Fragment>
       <StyledSVG src={ProfileIcon} {...props} />
-      {link &&
-        <LinkText>{link}</LinkText>
+      {placeholder &&
+        <LinkText>{placeholder}</LinkText>
       }
     </Fragment>
   );
 }
 
-function FileUploader({children, onChange, onClick, label, ...props}) {
-  const [id] = useState(_uniqueId('file-uploader-'));
-
+function FileUploader({children, onChange, onClick, id, label, name, ...props}) {
   return (
     <Fragment>
       {children &&
@@ -79,7 +73,13 @@ function FileUploader({children, onChange, onClick, label, ...props}) {
           {children}
         </LabelWrapper>
       }
-     <InputInvisible id={id} type='file' onChange={onChange} onClick={onClick} label={label} />
+     <InputInvisible
+     id={id}
+     name={name}
+     type='file'
+     onChange={onChange}
+     onClick={onClick}
+     aria-label={label}/>
     </Fragment>
   );
 }
@@ -100,7 +100,7 @@ function ProfileImageUploader({src, ...props}) {
     <FileUploader {...props}>
       {src
         ? <Image src={src} />
-        : <ProfilePlaceholder link='Add photo' />
+        : <ProfilePlaceholder placeholder='Add photo' />
       }
     </FileUploader>
   );

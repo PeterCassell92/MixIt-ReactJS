@@ -1,7 +1,7 @@
 //SweetAlert2 Config
 //creates configurations for SweetAlert2 Messages with minimal arguments.
 class SwalConfig{
-    constructor({error, success, text, title, large, isHtml}){
+    constructor({error, success, text, title, large, isHtml, preventOutsideClick}){
         
 
         this.title =  title? title: (error? 'Error' : (success? 'Success': null ))
@@ -16,6 +16,7 @@ class SwalConfig{
         this.confirmButtonText = 'Continue'
         this.toast= large? false : true
         this.position = large? 'center' : 'bottom-end'
+        this.allowOutsideClick = preventOutsideClick? false : true
     }
 }
 

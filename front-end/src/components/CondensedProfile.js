@@ -3,7 +3,9 @@ import styled from "styled-components"
 import localforage from "localforage";
 import { Link } from "react-router-dom";
 import SVG, {Props as SVGProps} from 'react-inlinesvg';
-import {FaEdit} from 'react-icons/fa'
+import { selectedTheme as theme } from "../common/themes/theme";
+import { FaEdit } from 'react-icons/fa'
+import { StyledFaIconLink } from "./Links";
 import { getFromLocalStorage}  from "../common/storage";
 import { personal as PERSONAL } from "../common/constants";
 
@@ -11,10 +13,8 @@ import { Row, Column } from "./Flex";
 import { ProfileImageUploader } from "./Image/Image";
 import DisplayField from "./DisplayField";
 
-
-
 const ProfileImageWrapper = styled(Row)`
-  margin: 24px 0;
+  margin: 0 0 24px 0;
 `;
 
 const StyledHeader = styled.h1`
@@ -30,9 +30,8 @@ const StyledDivider = styled.hr`
     height: 5px !important;
     opacity: 1 !important;
 `
-const FloatingLink = styled(Link)`
-    position: relative;
-    text-align: center;
+const EditIconLink = styled(StyledFaIconLink)`
+    position: absolute;
 `
 
 function CondensedProfile() {
@@ -57,7 +56,7 @@ function CondensedProfile() {
         });
       }, []);
     
-      // Event handlers
+    // Event handlers
     const handleProfileImageSrcChange = (event) => {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -72,25 +71,29 @@ function CondensedProfile() {
     return (
         <>
           { ready &&
-          <section>
+          <aside>
             <Row className = "p-2" wrap="wrap-reverse">
                     <Column className="col-12 col-lg-7">
-                        {/* editicon {FaEdit} Todo */}
-                        <FloatingLink to='profile'>Edit
-                        </FloatingLink>
-                        <FaEdit />
+                        <EditIconLink to='/profile' faicon={FaEdit}/>
                         <StyledHeader>{firstName} {surname}</StyledHeader>
                         <StyledDivider/>
                         <DisplayField label="Email" value={email}/>
                         <DisplayField label="Mobile" value={mobileNumber}/>
                     </Column>
 
-                    <ProfileImageWrapper justify="center" className="col-12 col-lg-5">
-                        <ProfileImageUploader src={profileImageSrc} height='200px'
-                        onChange={handleProfileImageSrcChange} label="profileImageUploader" />
+                    <ProfileImageWrapper
+                    justify="center"
+                    className="col-12 col-lg-5">
+                        <ProfileImageUploader
+                        src={profileImageSrc}
+                        height="150px"
+                        onChange={handleProfileImageSrcChange}
+                        id="profile-image"
+                        name="Profile Image"
+                        label="Profile Image"/>
                     </ProfileImageWrapper>
                 </Row>
-            </section>}
+            </aside>}
         </>
     )
 }
