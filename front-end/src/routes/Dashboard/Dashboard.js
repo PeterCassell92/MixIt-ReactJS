@@ -14,14 +14,13 @@ import { Redirect } from 'react-router'
 
 const BorderContainer = styled.section`
     width: 100%;
-    min-height: 300px;
     border: 1px solid ${theme.container.color.border};
-    padding: 30px;
+    padding: 5px 20px 5px 20px;
     border-radius: 5px;
     background-color: ${theme.container.color.background};
 `
 const InnerColumn = styled.div`
-    padding: 30px;
+    padding: 0px 20px 0px 20px;
 `
 
 function Dashboard() {
@@ -39,22 +38,20 @@ function Dashboard() {
     <>
     {ready && (!registered) ? (<Redirect to='/profile'/>) : 
         <PageWrapper>
-            <Header/>
-            <Row as="main">
-                <Column as="section" className = "col-12 col-lg-7">
+            <Header includeMenu={true}/>
+            <Row as="main" justify="center">
+                <Column as="section" className = "col-12 col-md-6 col-lg-5">
                     <InnerColumn className = "d-flex flex-column">
-                        <aside>
-                            <CondensedProfile/>
-                        </aside>
-                        {/* <BorderContainer
-                        className= "flex-grow-1 ">
+                        <CondensedProfile semanticTag="aside"/>
+                        <BorderContainer
+                        className= "flex-grow-1 mt-2 mt-md-0">
                             <Tracks/>
-                        </BorderContainer> */}
+                        </BorderContainer>
                     </InnerColumn>
                 </Column>
-                <Column as="section" className = "col-12 col-lg-5">
+                <Column as="section" className = "col-12 col-md-6 col-lg-4">
                     <InnerColumn>
-                        <BorderContainer>
+                        <BorderContainer className="mt-2 mt-md-0 mb-4 mb-md-0">
                             <TaskList/>
                         </BorderContainer>
                     </InnerColumn>
@@ -65,4 +62,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard
+export default Dashboard;

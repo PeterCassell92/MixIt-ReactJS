@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const FullSizeDiv = styled.div`
-    min-height: 100vh
+    min-height: 100vh;
 `
 
 function PageWrapper({children}) {

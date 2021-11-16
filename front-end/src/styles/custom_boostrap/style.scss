@@ -1,8 +1,18 @@
+@import '../../common/fonts/intro-rust/intro Regular/@font-face/stylesheet.css';
+
 $theme-colors: (
     "primary": #130b2e,
     "secondary": #f80040,
     "off-white": #f4f4f4,
     "tint" : steelblue,
 );
+
+// scss-docs-start headings-variables
+$headings-margin-bottom:      0;
+$headings-font-family:        'intro Rust';
+// $headings-font-style:         null !default;
+// $headings-font-weight:        500 !default;
+// $headings-line-height:        1.2 !default;
+// $headings-color:              null !default;
 
 @import "../../../node_modules/bootstrap/scss/bootstrap";

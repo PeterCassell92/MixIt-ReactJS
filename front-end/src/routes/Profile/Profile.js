@@ -13,8 +13,9 @@ import {
     validateEmail    
 } from "../../common/validators"
 import { selectedTheme as theme } from "../../common/themes/theme"
-import { Input, InputGroup } from "../../components/Inputs"
-import Button from "../../components/Button"
+import Header from "../../components/Header"
+import { Input, InputGroup } from "../../components/Inputs/Inputs"
+import Button from "../../components/Button/Button"
 import { Row } from "../../components/Flex"
 import PageWrapper from "../../components/PageWrapper"
 import SectionHeader from "../../components/SectionHeader"
@@ -174,6 +175,7 @@ function Profile() {
         <>
         {ready && 
         <PageWrapper>
+            <Header/>
             <Row as="main" justify='center'>
                 <form className = "col-12 col-lg-7"
                 name="Profile Details"
@@ -200,8 +202,8 @@ function Profile() {
                         placeholder="First Name"
                         value={firstName? firstName : ''}
                         onChange={handleFirstNameChange}
-                        complete={firstNameAttempted && firstNameValid}
-                        warning={firstNameAttempted && !firstNameValid}/>
+                        attempted={firstNameAttempted}
+                        valid={firstNameValid}/>
                         <Input
                         id="surname"
                         label="Surname"
@@ -209,8 +211,8 @@ function Profile() {
                         placeholder="Last Name"
                         value={surname? surname: ''}
                         onChange={handleSurnameChange}
-                        complete={surnameAttempted && surnameValid}
-                        warning={surnameAttempted && !surnameValid}/>
+                        attempted={surnameAttempted}
+                        valid={surnameValid}/>
                     </InputGroup>
                     <InputGroup className="py-2">  
                         <Input
@@ -220,8 +222,8 @@ function Profile() {
                         placeholder="Mobile Number"
                         value={mobileNumber? mobileNumber:''}
                         onChange={handleMobileNumberChange}
-                        complete={mobileNumberAttempted && mobileNumberValid}
-                        warning={mobileNumberAttempted && !mobileNumberValid}/>
+                        attempted={mobileNumberAttempted}
+                        valid={mobileNumberValid}/>
                         <Input
                         id="email"
                         label="Email"
@@ -229,15 +231,15 @@ function Profile() {
                         placeholder="Email Address"
                         value={email? email: ''}
                         onChange={handleEmailChange}
-                        complete={emailAttempted && emailValid}
-                        warning={emailAttempted && !emailValid}/>
+                        attempted={emailAttempted}
+                        valid={emailValid}/>
                     </InputGroup>
-                    <Row className= "pt-2 pb-4">
+                    <Row className= "pt-2 pb-4 justify-content-end">
                         <Button
                         id="update-profile-details-btn"
                         name="Update Profile Details"
                         aria-label="Update Profile Details"
-                        color={theme.main.color.info}
+                        className="btn-secondary float-right"
                         text={!registered? "Register" : "Update"}
                         >
                         </Button>

@@ -14,27 +14,25 @@ import { ProfileImageUploader } from "./Image/Image";
 import DisplayField from "./DisplayField";
 
 const ProfileImageWrapper = styled(Row)`
-  margin: 0 0 24px 0;
+  margin: 0 0 12px 0;
 `;
 
-const StyledHeader = styled.h1`
+const StyledHeader = styled.h2`
     font-weight: bold;
-    color: var(--off-white);
+    color: ${theme.main.color.textheading};
     text-align: center;
 `
 
 const StyledDivider = styled.hr`
     margin-left: 20%;
     margin-right: 20%;
-    background-color: var(--off-white);
+    background-color: ${theme.main.color.textheading};
     height: 5px !important;
     opacity: 1 !important;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
 `
-const EditIconLink = styled(StyledFaIconLink)`
-    position: absolute;
-`
-
-function CondensedProfile() {
+function CondensedProfile({semanticTag}) {
     
     const [firstName, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
@@ -68,34 +66,49 @@ function CondensedProfile() {
         reader.readAsDataURL(event.target.files[0]);
         }
     };
+
+    //object to store properties for Row that should not be passed if not truthy.
+    const rowProps = {};
+    if (semanticTag){
+        rowProps.as = semanticTag;
+    }
+    
     return (
         <>
           { ready &&
-          <aside>
-            <Row className = "p-2" wrap="wrap-reverse">
+            <Row {...rowProps} wrap="wrap-reverse">
                     <Column className="col-12 col-lg-7">
-                        <EditIconLink to='/profile' faicon={FaEdit}/>
-                        <StyledHeader>{firstName} {surname}</StyledHeader>
+                        <Row className="justify-content-between">
+                            <div className="col-1">
+                                <StyledFaIconLink
+                                to='/profile'
+                                faicon={FaEdit}/>
+                            </div>
+                            <StyledHeader className="align-self-center">{firstName}</StyledHeader>
+                            <div className="col-1"></div>    
+                        </Row>
+                        <StyledHeader >{surname}</StyledHeader>
                         <StyledDivider/>
-                        <DisplayField label="Email" value={email}/>
-                        <DisplayField label="Mobile" value={mobileNumber}/>
+                        <div className="pb-1">
+                            <DisplayField label="Email" value={email}/>
+                            <DisplayField label="Mobile" value={mobileNumber}/>
+                        </div>
                     </Column>
-
                     <ProfileImageWrapper
                     justify="center"
                     className="col-12 col-lg-5">
                         <ProfileImageUploader
                         src={profileImageSrc}
-                        height="150px"
+                        height="120px"
                         onChange={handleProfileImageSrcChange}
                         id="profile-image"
                         name="Profile Image"
                         label="Profile Image"/>
                     </ProfileImageWrapper>
                 </Row>
-            </aside>}
+            }
         </>
     )
 }
 
-export default CondensedProfile
+export default CondensedProfile;

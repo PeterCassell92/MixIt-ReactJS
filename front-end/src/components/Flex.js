@@ -5,7 +5,7 @@ const Row = styled.div`
   flex-direction: row;
   flex-wrap: ${props => props.wrap || 'wrap'};
 
-  justify-content: ${props => props.justify || 'auto'};
+  justify-content: ${props => props.justify || 'start'};
 
   ${props => props.grow && css`
     flex-grow: 1;
@@ -13,6 +13,10 @@ const Row = styled.div`
 
   ${props => props.center && css`
     align-items: center;
+  `}
+
+  ${props => props.width && css`
+    width: ${props.width};
   `}
 `;
 

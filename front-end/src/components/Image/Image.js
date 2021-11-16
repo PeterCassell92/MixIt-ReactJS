@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SVG from 'react-inlinesvg';
 import { selectedTheme as theme } from '../../common/themes/theme';
 
-import { InputInvisible } from '../Inputs';
+import { InputInvisible } from '../Inputs/Inputs';
 
 import ProfileIcon from './svg/profile_outline.svg';
 
@@ -17,10 +17,12 @@ const StyledSVG = styled(SVG)`
   }
 `;
 
+//not true image. using div and setting background property.
+//this has implications for height/width
 const Image = styled.div`
-  border-radius: 100%;
-  height: 100%;
-  width: 100%;
+  border-radius: ${props => props.borderradius? props.borderradius: "0"};
+  height: ${props => props.height? props.height: "100%"};
+  width: ${props => props.width? props.width: "100%"};
   background-color: transparent;
   background-size: cover;
   background-repeat: no-repeat;
@@ -88,7 +90,7 @@ function ProfileImage({src, ...props}) {
   return (
     <LabelWrapper {...props}>
       {src
-        ? <Image src={src} />
+        ? <Image src={src} borderradius="100%"/>
         : <ProfilePlaceholder />
       }
     </LabelWrapper>
@@ -99,7 +101,7 @@ function ProfileImageUploader({src, ...props}) {
   return (
     <FileUploader {...props}>
       {src
-        ? <Image src={src} />
+        ? <Image src={src} borderradius="100%" />
         : <ProfilePlaceholder placeholder='Add photo' />
       }
     </FileUploader>

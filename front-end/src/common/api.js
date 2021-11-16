@@ -96,7 +96,6 @@ function promisifyAPI(uri, endpoint, body, method = 'GET', headers) {
 
 // export { errors, parseJsonBody, promisifyAPI, makeParameterURI };
 
-
 const json_server_base_url = 'http://localhost:5000'
 const json_server_api = {
     tasks:{

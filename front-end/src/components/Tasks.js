@@ -1,4 +1,4 @@
-import Task from "./Task"
+import Task from "./Task/Task"
 
 function Tasks({tasks, onDelete, onToggle}) {
     return (
