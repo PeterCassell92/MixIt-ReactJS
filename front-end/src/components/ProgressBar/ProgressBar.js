@@ -1,6 +1,8 @@
 import { forwardRef, useRef, useState } from "react";
 import styled from "styled-components";
 import { selectedTheme as theme } from "../../common/themes/theme";
+import PropTypes from "prop-types";
+import { Row } from "../../components/Flex";
 import { useSyncedRef } from "../../common/lib_extensions/react";
 
 const _ProgressBar = styled.input`
@@ -9,7 +11,7 @@ const _ProgressBar = styled.input`
     background: ${theme.audioplayer.slider.color.barbackground};
     border-radius: 10px;
     position: relative;
-    height: 11px;
+    height: ${props => props.barheight};
     outline: none;
     z-index: 1;
 
@@ -18,7 +20,7 @@ const _ProgressBar = styled.input`
         background: ${theme.audioplayer.slider.color.barbackground};
         border-radius: 10px;
         position: relative;
-        height: 11px;
+        height: ${props => props.barheight};
         outline:none;
     }
 
@@ -29,7 +31,7 @@ const _ProgressBar = styled.input`
     /* Chrome and Safari*/
     &::before{
         content:'';
-        height: 11px;
+        height: ${props => props.barheight};
         width: ${props => props.seekbeforewidth };
         background-color: ${theme.audioplayer.slider.color.seekbefore};
         border-bottom-left-radius: 10px;
@@ -46,7 +48,7 @@ const _ProgressBar = styled.input`
         background-color: ${theme.audioplayer.slider.color.seekbefore};
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        height: 11px;
+        height: ${props => props.barheight};
     }
 
     /* knobby -chrome and safari  NOT WORKING! */
@@ -92,7 +94,7 @@ const _ProgressBar = styled.input`
     }
 `
 
-const ProgressBar = forwardRef(({defaultValue, onChange, animate ,  max, increment, ...props}, ref) =>
+const ProgressBar = forwardRef(({defaultValue, onChange, animate , barheight,  max, increment, ...props}, ref) =>
  {
     // const barRef = useSyncedRef(ref);
     const [seekBeforeWidth, setSeekBeforeWidth] = useState(0);
@@ -111,10 +113,19 @@ const ProgressBar = forwardRef(({defaultValue, onChange, animate ,  max, increme
             defaultValue={defaultValue}
             ref={ref}
             onChange={onValueChange}
-            seekbeforewidth={seekBeforeWidth}/>
+            seekbeforewidth={seekBeforeWidth}
+            barheight={barheight}/>
         </div>
     )
 });
+
+ProgressBar.defaultProps= {
+    barheight: "8px"
+}
+  
+ProgressBar.propTypes = {
+    barheight: PropTypes.string
+}
 
 export { ProgressBar }
 export default ProgressBar

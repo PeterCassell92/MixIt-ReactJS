@@ -9,7 +9,7 @@ function Admin() {
         <PageWrapper>
             <Row center>
             <Button text="erase data"
-                color="var(--secondary)"
+                color={theme.main.color.warning}
                 onClick = {emptyLocalStorage}></Button>
             </Row>
 
@@ -17,9 +17,7 @@ function Admin() {
                 <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>
             is licensed by CC BY 3.0</div>
         </PageWrapper>
-    )
+    );
 }
 
-
-
-export default Admin
+export default Admin;

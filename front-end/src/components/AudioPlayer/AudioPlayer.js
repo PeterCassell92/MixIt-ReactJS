@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import SVG from 'react-inlinesvg';
 import { Row } from '../Flex';
 import Button from '../Button/Button';
+import { selectedTheme as theme} from '../../common/themes/theme';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import PositionableElement from '../Positionable';
 import soundlevels from '../../common/img/playerlevels.png';
-import headphones from '../../common/img/headphones.png';
 import playicon from '../../common/img/playicon.png';
 import pauseicon from '../../common/img/pauseicon.png';
 import volumeicon from '../../common/img/volumeicon.png';
@@ -16,9 +16,12 @@ import forwardicon from '../../common/svg/media-skip-forward.svg';
 const AudioContainer=styled.div`
     width: ${props => props.totalwidth};
     position: relative;
+    border-radius: 10%;
+    box-shadow: 2px;
 `
 
 const TrackNameContainer=styled.div`
+    font-size: 14px;
     padding-left: ${props => props.paddingl? props.paddingl: 0 };
 `
 
@@ -36,12 +39,20 @@ left: 0px;
 z-index: 1;
 `
 
-const AudioTimeText=styled.span`
-    font-size: 10px;
-    font-family: monospace;
+const AudioSkipControl=styled(SVG)`
+    width: 16px;
+    cursor: pointer;
 `
 
-function AudioPlayer({pixelwidth, audioSrc, ...props}) {
+const AudioTimeText=styled.span`
+    font-size: 8px;
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    height: 100%;
+`
+
+function AudioPlayer({pixelwidth, track, ...props}) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
@@ -63,10 +74,11 @@ function AudioPlayer({pixelwidth, audioSrc, ...props}) {
         const returnedMinutes= minutes < 10 ? `0${minutes}`:`${minutes}`;
         const seconds = Math.floor(secs % 60);
         const returnedSeconds =  seconds < 10 ? `0${seconds}`:`${seconds}`;
-        return `${returnedMinutes}:${returnedSeconds}`
+        return `${returnedMinutes}:${returnedSeconds}`;
     }
 
     const changeRange = (e) => {
+        //e.preventDefault();
         audioPlayer.current.currentTime = progressBar.current.value;
         setCurrentTime(progressBar.current.value);
     }
@@ -102,33 +114,33 @@ function AudioPlayer({pixelwidth, audioSrc, ...props}) {
     }
     return (
         <AudioContainer totalwidth={pixelwidth + "px"}>
-            <audio ref={audioPlayer} src={audioSrc} preload="metadata"></audio>
+            <audio ref={audioPlayer} src={track.audioSrc} preload="metadata"></audio>
             <div>
                 <PlayPauseButton src={isPlaying? pauseicon :playicon}
                 width={pixelwidth/4} onClick={togglePlayPause}/>
                 <SoundLevel width={pixelwidth} src={soundlevels}/>
                 <TrackNameContainer paddingl={pixelwidth/4 +"px"}>
-                    TRACKNAME
+                    {track.title} - {track.artist}
                 </TrackNameContainer>
             </div>
-            <Row>
+            <Row height="25px">
                 <PositionableElement
                 width={pixelwidth/4 + "px"}
                 position="relative"
                 left="-10px"
-                className="col-12 col-3">
-                    <Row justify="center">
-                        <SVG src={backwardicon} width="20px" className="mx-1"></SVG>
-                        <SVG width="20px" src={forwardicon} className="mx-1"></SVG>               
+                className="col-12 col-3 h-100">
+                    <Row justify="center" center className="h-100">
+                        <AudioSkipControl src={backwardicon} className="me-1"></AudioSkipControl>
+                        <AudioSkipControl src={forwardicon} className="ms-1"></AudioSkipControl>               
                     </Row>
                 </PositionableElement>
 
                 <Row
                 width={pixelwidth*3/4}
                 name="audio-timer-controls"
-                className="col-9 align-items-center">
+                className="col-9 align-items-center h-100">
                     {/* current time */}
-                    <AudioTimeText className="mx-1">
+                    <AudioTimeText className="me-1">
                         {calculateTime(currentTime)}
                     </AudioTimeText>
                     {/* Progress bar */}
@@ -141,7 +153,7 @@ function AudioPlayer({pixelwidth, audioSrc, ...props}) {
                         increment={isPlaying}
                         />
                     {/* duration */}
-                    <AudioTimeText className="mx-1">
+                    <AudioTimeText className="ms-1">
                         {duration  && !isNaN(duration)? calculateTime(duration) : "-"}
                     </AudioTimeText>
                 </Row>

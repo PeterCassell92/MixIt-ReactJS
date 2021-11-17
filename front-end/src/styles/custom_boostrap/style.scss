@@ -1,4 +1,5 @@
-@import '../../common/fonts/intro-rust/intro Regular/@font-face/stylesheet.css';
+// @import '../../common/fonts/intro-rust/intro Regular/@font-face/stylesheet.css';
+@import url(//db.onlinewebfonts.com/c/b2f90b602a9f5c2da56ad4ff3074c9ca?family=Intro);
 
 $theme-colors: (
     "primary": #130b2e,
@@ -9,7 +10,7 @@ $theme-colors: (
 
 // scss-docs-start headings-variables
 $headings-margin-bottom:      0;
-$headings-font-family:        'intro Rust';
+$headings-font-family:        'Intro';
 // $headings-font-style:         null !default;
 // $headings-font-weight:        500 !default;
 // $headings-line-height:        1.2 !default;

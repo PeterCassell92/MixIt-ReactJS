@@ -18,6 +18,10 @@ const Row = styled.div`
   ${props => props.width && css`
     width: ${props.width};
   `}
+
+  ${props => props.height && css`
+    height: ${props.height};
+  `}
 `;
 
 const Column = styled.div`
